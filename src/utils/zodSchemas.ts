@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+// Company Schema
 export const companySchema = z.object({
     name: z.string().min(2, "Company name must be at least 2 characters"),
     location: z.string().min(1, "Location must be defined"),
@@ -7,4 +8,11 @@ export const companySchema = z.object({
     logo: z.string().min(1, "Please upload a logo"),
     website: z.string().url("Please enter a valid URL"),
     xAccount: z.string().optional(),
+})
+
+// Job Seeker Schema
+export const jobSeekerSchema = z.object({
+    name: z.string().min(2, "Name must be at least 2 characters"),
+    about: z.string().min(10, "Please provide some information about yourself"),
+    resume: z.string().min(1, "Please upload a resume"),
 })

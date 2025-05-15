@@ -2,9 +2,10 @@ import Link from "next/link";
 import React from "react";
 import logo from "@/assets/public/logo.png";
 import Image from "next/image";
-import { Button, buttonVariants } from "../ui/button";
+import { buttonVariants } from "../ui/button";
 import { ThemeToggle } from "../theme/ThemeToggle";
-import { auth, signOut } from "@/utils/auth";
+import { auth } from "@/utils/auth";
+import UserDropdown from "./UserDropdown";
 
 const Navbar = async () => {
   const session = await auth();
@@ -17,8 +18,40 @@ const Navbar = async () => {
         </h1>
       </Link>
 
+      {/* Desktop navigation */}
+      <div className="hidden md:flex items-center gap-5">
+        <ThemeToggle />
+        <Link
+          className={`cursor-pointer ${buttonVariants({
+            size: "lg",
+            className: "text-white",
+          })}`}
+          href="/post-job"
+        >
+          Post Job
+        </Link>
+        {session?.user ? (
+          <UserDropdown
+            email={session.user.email!}
+            name={session.user.name!}
+            image={session.user.image!}
+          />
+        ) : (
+          <Link
+            href="/login"
+            className={`cursor-pointer ${buttonVariants({
+              variant: "outline",
+              size: "lg",
+              className: "text-white",
+            })}`}
+          >
+            Login
+          </Link>
+        )}
+      </div>
+
       {/* Right section */}
-      <div className="flex items-center gap-4">
+      {/* <div className="flex items-center gap-4">
         <ThemeToggle />
         {session?.user ? (
           <form
@@ -38,8 +71,8 @@ const Navbar = async () => {
           >
             Login
           </Link>
-        )}
-      </div>
+        )} 
+      </div>*/}
     </nav>
   );
 };

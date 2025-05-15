@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import logo from "@/assets/public/logo.png";
 import { Card, CardContent } from "@/components/ui/card";
 import UserTypeSelection from "./UserTypeSelection";
+import CompanyForm from "./CompanyForm";
+import JobSeekerForm from "./JobSeekerForm";
 
 export type UserSelectionType = "jobSeeker" | "company" | null;
 
@@ -22,9 +24,9 @@ const OnboardingForm = () => {
         return <UserTypeSelection onUserTypeSelect={handleUserTypeSelection} />;
       case 2:
         return userType === "jobSeeker" ? (
-          <p>Job Seeker form</p>
+          <JobSeekerForm/>
         ) : (
-          <p>Company form</p>
+          <CompanyForm/>
         );
       default:
         return null;
