@@ -58,3 +58,10 @@ export const stats = [
   { value: "95%", label: "Employer satisfaction rate" },
   { value: "500+", label: "Companies hiring monthly" },
 ];
+
+export const jobTypes = [
+  { id: 1, value: "full-time", label: "Full Time" },
+  { id: 2, value: "part-time", label: "Part Time" },
+  { id: 3, value: "contract", label: "Contract" },
+  { id: 4, value: "internship", label: "Internship" },
+]

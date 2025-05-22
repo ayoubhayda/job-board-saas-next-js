@@ -1,3 +1,4 @@
+import CreateJobForm from "@/components/forms/CreateJobForm";
 import {
   Card,
   CardContent,
@@ -6,18 +7,29 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { companies, stats, testimonials } from "@/constants/PostJob";
+import { getCompany } from "@/lib/Services";
+import { userConected } from "@/utils/userConected";
 import Image from "next/image";
 import React from "react";
 
-const page = () => {
+const page = async () => {
+  const user = await userConected();
+  const companydata = await getCompany(user.id as string);
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-5">
-      <Card className="col-span-1 lg:col-span-2">
-        <CardHeader>
-          <CardTitle>Hey this is the form</CardTitle>
-        </CardHeader>
-      </Card>
-      <Card className="col-span-1">
+      {/* Create Job Form */}
+      <CreateJobForm
+        companyName={companydata.name}
+        companyAbout={companydata.about}
+        companyLocation={companydata.location}
+        companyLogo={companydata.logo}
+        companyWebsite={companydata.website}
+        companyXAccount={companydata.xAccount}
+      />
+
+      {/* Trusted by Industry Leaders */}
+      {/* This card will contain company logos, testimonials, and stats */}
+      <Card className="col-span-1 h-fit">
         <CardHeader>
           <CardTitle className="text-xl">Trusted by Industry Leaders</CardTitle>
           <CardDescription>

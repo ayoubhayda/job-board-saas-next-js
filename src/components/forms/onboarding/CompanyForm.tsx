@@ -220,7 +220,7 @@ const CompanyForm = () => {
         <Button
           type="submit"
           disabled={pending}
-          className="w-full cursor-pointer text-accent-foreground"
+          className="w-full cursor-pointer text-white"
         >
           {pending ? "Submitting..." : "Continue"}
         </Button>
