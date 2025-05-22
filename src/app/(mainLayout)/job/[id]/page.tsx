@@ -1,12 +1,17 @@
 import JsonToHtml from "@/components/general/JsonToHtml";
+import SaveButton from "@/components/general/SaveButton";
 import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { jobTypes } from "@/constants/PostJob";
+import { saveJobPost, unSaveJobPost } from "@/lib/actions";
+import { getClient } from "@/lib/security";
 import { getJobMutation } from "@/lib/Services";
 import { cn } from "@/lib/utils";
+import { auth } from "@/utils/auth";
 import { getFlagEmoji } from "@/utils/countriesList";
 import { benefits } from "@/utils/listOfBenefits";
+import { request } from "@arcjet/next";
 import { Heart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -15,11 +20,25 @@ import React from "react";
 type Params = Promise<{ id: string }>;
 const page = async ({ params }: { params: Params }) => {
   const { id } = await params;
-  const data = await getJobMutation(id);
+
+  const session = await auth();
+  const req = await request();
+  const decision = await getClient(!!session).protect(req, {
+    requested: 10,
+    fingerprint: `${session?.user?.id}`
+  });
+
+  if (decision.isDenied()) {
+    throw new Error("Forbidden");
+  }
+  const { jobData: data, savedJob } = await getJobMutation(id, session?.user?.id);
+
   if (!data) {
     return;
   }
+
   const locationFlag = getFlagEmoji(data?.location as string);
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 py-8 pb-12">
       <div className="space-y-8 col-1 md:col-span-2">
@@ -44,13 +63,27 @@ const page = async ({ params }: { params: Params }) => {
             </div>
           </div>
 
-          <Link
+          {session?.user ? (
+            <form
+              action={
+                savedJob
+                  ? unSaveJobPost.bind(null, savedJob.id)
+                  : saveJobPost.bind(null, id)
+              }
+            >
+              <SaveButton savedJob={!!savedJob} />
+            </form>
+          ) : (
+            <Link
             href="/login"
             className={`${buttonVariants({ variant: "outline" })} !shadow-none`}
           >
             <Heart className="size-4" />
             Save Job
           </Link>
+          )}
+
+          
         </div>
 
         <section>

@@ -202,6 +202,14 @@ exports.Prisma.JobScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.SavedJobScalarFieldEnum = {
+  id: 'id',
+  jobId: 'jobId',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -234,7 +242,8 @@ exports.Prisma.ModelName = {
   Account: 'Account',
   Session: 'Session',
   VerificationToken: 'VerificationToken',
-  Job: 'Job'
+  Job: 'Job',
+  SavedJob: 'SavedJob'
 };
 
 /**

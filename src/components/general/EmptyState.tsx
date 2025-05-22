@@ -8,11 +8,12 @@ interface iAppProps {
   description: string;
   buttonText: string;
   href: string;
+  className?: string
 }
 
-const EmptyState = ({ buttonText, description, href, title }: iAppProps) => {
+const EmptyState = ({ buttonText, description, href, title, className = "" }: iAppProps) => {
   return (
-    <div className="flex flex-col flex-1 h-full items-center justify-center rounded-xl border p-8 text-center animate-in fade-in-50">
+    <div className={`flex flex-col flex-1 h-full items-center justify-center rounded-xl border p-8 text-center animate-in fade-in-50 ${className}`}>
       <div className="flex size-20 items-center justify-center rounded-full bg-primary/10">
         <Ban className="size-10 text-primary" />
       </div>
